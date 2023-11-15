@@ -8,7 +8,9 @@ import com.mhs.starwarscharacter.databinding.ActivityMainBinding
 import com.mhs.starwarscharacter.ui.fragments.CharacterFragment
 import com.mhs.starwarscharacter.ui.fragments.PlanetFragment
 import com.mhs.starwarscharacter.ui.fragments.StarShipFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

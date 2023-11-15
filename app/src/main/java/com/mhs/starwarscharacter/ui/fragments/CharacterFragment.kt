@@ -1,60 +1,70 @@
 package com.mhs.starwarscharacter.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mhs.starwarscharacter.R
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mhs.starwarscharacter.adapter.CharacterAdapter
+import com.mhs.starwarscharacter.databinding.FragmentCharacterBinding
+import com.mhs.starwarscharacter.utils.DataStatus
+import com.mhs.starwarscharacter.utils.initRecycler
+import com.mhs.starwarscharacter.utils.isVisible
+import com.mhs.starwarscharacter.viewModel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CharacterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class CharacterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var _binding : FragmentCharacterBinding?=null
+    private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var characterAdapter: CharacterAdapter
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        _binding = FragmentCharacterBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setUpRecyclerView()
+        lifecycleScope.launch {
+            binding.apply {
+                viewModel.getCharacterList()
+                viewModel.charactersList.observe(viewLifecycleOwner){
+                    when(it.status){
+                        DataStatus.Status.LOADING->{
+                            pBarLoading.isVisible(true, rvCharacter)
+                        }
+                        DataStatus.Status.SUCCESS->{
+                            pBarLoading.isVisible(false, rvCharacter)
+                            characterAdapter.differ.submitList(it.data?.results)
+                            Log.e("data", "" + it.data?.results?.get(1)?.name)
+                        }
+                        DataStatus.Status.ERROR->{
+                            pBarLoading.isVisible(false, rvCharacter)
+                            Toast.makeText(requireContext(), "There is something wrong!!", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_character, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CharacterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CharacterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun setUpRecyclerView() {
+        binding.rvCharacter.initRecycler(LinearLayoutManager(requireContext()), characterAdapter)
     }
 }
