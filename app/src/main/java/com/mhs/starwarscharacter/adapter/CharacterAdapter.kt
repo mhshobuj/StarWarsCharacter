@@ -28,9 +28,9 @@ class CharacterAdapter @Inject constructor() : RecyclerView.Adapter<CharacterAda
     inner class MyViewHolder(private val itemBinding: CharacterItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: CharacterList.Result){
             itemBinding.apply {
-                tvName.text = item.name
-                tvHeight.text = item.height
-                tvName.text = item.gender
+                tvName.text = "Name: ".plus(item.name)
+                tvHeight.text = "Height: ".plus(item.height).plus(" inch")
+                tvGender.text = "Gender: ".plus(item.gender)
             }
         }
     }
