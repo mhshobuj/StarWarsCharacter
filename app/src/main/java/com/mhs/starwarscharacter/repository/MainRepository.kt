@@ -1,6 +1,7 @@
 package com.mhs.starwarscharacter.repository
 
 import com.mhs.starwarscharacter.api.ApiService
+import com.mhs.starwarscharacter.db.StarWarDatabase
 import com.mhs.starwarscharacter.utils.DataStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch

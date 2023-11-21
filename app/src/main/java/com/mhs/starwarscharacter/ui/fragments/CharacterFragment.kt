@@ -12,11 +12,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mhs.starwarscharacter.adapter.CharacterAdapter
 import com.mhs.starwarscharacter.databinding.FragmentCharacterBinding
+import com.mhs.starwarscharacter.db.StarWarDatabase
+import com.mhs.starwarscharacter.entity.character.CharacterList
 import com.mhs.starwarscharacter.utils.DataStatus
+import com.mhs.starwarscharacter.utils.NetworkChecking
 import com.mhs.starwarscharacter.utils.initRecycler
 import com.mhs.starwarscharacter.utils.isVisible
 import com.mhs.starwarscharacter.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -29,6 +34,8 @@ class CharacterFragment : Fragment() {
     private var page = 1
     private var status = false
     private var characterAdapter: CharacterAdapter? = null
+    private var connectivityStatus: String? = null
+    private lateinit var starWarDatabase: StarWarDatabase
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -38,6 +45,12 @@ class CharacterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /** Network checking */
+        val networkChecking = NetworkChecking
+        connectivityStatus = networkChecking.getConnectivityStatusString(requireContext())
+
+        starWarDatabase = StarWarDatabase.getDatabase(requireContext())
 
         characterAdapter = CharacterAdapter(requireContext())
         setUpRecyclerView()
@@ -57,32 +70,59 @@ class CharacterFragment : Fragment() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun getCharacterList(page: Int) {
-        lifecycleScope.launch {
-            binding.apply {
-                viewModel.getCharacterList(page)
-                viewModel.charactersList.observe(viewLifecycleOwner){
-                    when(it.status){
-                        DataStatus.Status.LOADING->{
-                            pBarLoading.isVisible(true, rvCharacter)
-                        }
-                        DataStatus.Status.SUCCESS->{
-                            pBarLoading.isVisible(false, rvCharacter)
-                            if (it.data?.next != null) {
-                                characterAdapter?.submitData(it.data?.results!!)
+        if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
+            lifecycleScope.launch {
+                binding.apply {
+                    viewModel.getCharacterList(page)
+                    viewModel.charactersList.observe(viewLifecycleOwner) {
+                        when (it.status) {
+                            DataStatus.Status.LOADING -> {
+                                pBarLoading.isVisible(true, rvCharacter)
                             }
-                            else{
-                                status = true
-                                Toast.makeText(requireContext(), "That's all the data..", Toast.LENGTH_LONG).show()
+
+                            DataStatus.Status.SUCCESS -> {
+                                pBarLoading.isVisible(false, rvCharacter)
+                                if (it.data?.next != null) {
+                                    characterAdapter?.submitData(it.data?.results!!)
+
+                                    GlobalScope.launch {
+                                        it.data?.results?.let { characterList ->
+                                            val characters = characterList.map { characterResult ->
+                                                CharacterList(
+                                                    gender = characterResult.gender,
+                                                    height = characterResult.height,
+                                                    name = characterResult.name
+                                                )
+                                            }
+                                            starWarDatabase.starWarDao().addCharacter(characters)
+                                        }
+                                    }
+                                } else {
+                                    status = true
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "That's all the data..",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
-                        }
-                        DataStatus.Status.ERROR->{
-                            pBarLoading.isVisible(false, rvCharacter)
-                            Toast.makeText(requireContext(), "There is something wrong!!", Toast.LENGTH_LONG).show()
+
+                            DataStatus.Status.ERROR -> {
+                                pBarLoading.isVisible(false, rvCharacter)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "There is something wrong!!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
                     }
                 }
             }
+        } else{
+
         }
     }
 

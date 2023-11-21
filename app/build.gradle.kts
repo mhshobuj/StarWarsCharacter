@@ -6,6 +6,7 @@ plugins {
     id ("dagger.hilt.android.plugin")
     id ("com.google.dagger.hilt.android")
     id ("kotlin-kapt")
+    id ("com.google.devtools.ksp")
 }
 
 android {
@@ -84,4 +85,8 @@ dependencies {
 
     /** Coil- image download from network **/
     implementation ("io.coil-kt:coil:2.2.2")
+
+    val roomVersion = "2.6.0"
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 }
