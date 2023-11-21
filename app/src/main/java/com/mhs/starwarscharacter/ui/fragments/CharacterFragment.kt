@@ -93,7 +93,8 @@ class CharacterFragment : Fragment() {
                                                 CharacterList(
                                                     gender = characterResult.gender,
                                                     height = characterResult.height,
-                                                    name = characterResult.name
+                                                    name = characterResult.name,
+                                                    url = characterResult.url
                                                 )
                                             }
                                             starWarDatabase.starWarDao().addCharacter(characters)
