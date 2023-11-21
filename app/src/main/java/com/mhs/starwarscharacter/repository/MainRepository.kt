@@ -11,9 +11,9 @@ import javax.inject.Inject
 class MainRepository @Inject constructor(private val apiService: ApiService) {
 
     //get the all character list
-    suspend fun getCharacterList() = flow {
+    suspend fun getCharacterList(page: Int) = flow {
         emit(DataStatus.loading())
-        val result = apiService.getCharacterList()
+        val result = apiService.getCharacterList(page)
         when (result.code()) {
             200 -> {
                 emit(DataStatus.success(result.body()))

@@ -18,8 +18,8 @@ class MainViewModel @Inject constructor(private val mainRepository: MainReposito
     private val _characterList = MutableLiveData<DataStatus<CharacterList>>()
     val charactersList: LiveData<DataStatus<CharacterList>> get() = _characterList
 
-    fun getCharacterList() = viewModelScope.launch {
-        mainRepository.getCharacterList().collect {
+    fun getCharacterList(page: Int) = viewModelScope.launch {
+        mainRepository.getCharacterList(page).collect {
             _characterList.value = it
         }
     }

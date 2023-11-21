@@ -11,22 +11,10 @@ import javax.inject.Inject
 
 class CharacterAdapter @Inject constructor() : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
 
-    private lateinit var binding: CharacterItemBinding
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterAdapter.MyViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        binding = CharacterItemBinding.inflate(inflater, parent, false)
-        return MyViewHolder(binding)
-    }
+    private val data: MutableList<CharacterList.Result> = mutableListOf()
 
-    override fun onBindViewHolder(holder: CharacterAdapter.MyViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
-        holder.setIsRecyclable(false)
-    }
-
-    override fun getItemCount(): Int = differ.currentList.size
-
-    inner class MyViewHolder(private val itemBinding: CharacterItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(item: CharacterList.Result){
+    inner class MyViewHolder(private val itemBinding: CharacterItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(item: CharacterList.Result) {
             itemBinding.apply {
                 tvName.text = "Name: ".plus(item.name)
                 tvHeight.text = "Height: ".plus(item.height).plus(" inch")
@@ -35,21 +23,22 @@ class CharacterAdapter @Inject constructor() : RecyclerView.Adapter<CharacterAda
         }
     }
 
-    private val differCallBack = object : DiffUtil.ItemCallback<CharacterList.Result>() {
-        override fun areItemsTheSame(
-            oldItem: CharacterList.Result,
-            newItem: CharacterList.Result
-        ): Boolean {
-            return oldItem.url == newItem.url
-        }
-
-        override fun areContentsTheSame(
-            oldItem: CharacterList.Result,
-            newItem: CharacterList.Result
-        ): Boolean {
-            return oldItem == newItem
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = CharacterItemBinding.inflate(inflater, parent, false)
+        return MyViewHolder(binding)
     }
 
-    val differ = AsyncListDiffer(this, differCallBack)
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bind(data[position])
+        holder.setIsRecyclable(false)
+    }
+
+    override fun getItemCount(): Int = data.size
+
+    fun submitData(newData: List<CharacterList.Result>) {
+        data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
+    }
 }
