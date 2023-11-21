@@ -1,4 +1,4 @@
-package com.mhs.starwarscharacter.ui
+package com.mhs.starwarscharacter.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

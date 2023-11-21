@@ -18,7 +18,6 @@ import com.mhs.starwarscharacter.utils.isVisible
 import com.mhs.starwarscharacter.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CharacterFragment : Fragment() {
@@ -29,9 +28,7 @@ class CharacterFragment : Fragment() {
     private val viewModel: MainViewModel by viewModels()
     private var page = 1
     private var status = false
-
-    @Inject
-    lateinit var characterAdapter: CharacterAdapter
+    private var characterAdapter: CharacterAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -42,6 +39,7 @@ class CharacterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        characterAdapter = CharacterAdapter(requireContext())
         setUpRecyclerView()
         getCharacterList(page)
 
@@ -52,8 +50,9 @@ class CharacterFragment : Fragment() {
                 page++
                 Log.e("page", "$page")
                 // Do something when scrolled to the bottom
-                if (!status)
-                getCharacterList(page)
+                if (!status) {
+                    getCharacterList(page)
+                }
             }
         }
     }
@@ -70,7 +69,7 @@ class CharacterFragment : Fragment() {
                         DataStatus.Status.SUCCESS->{
                             pBarLoading.isVisible(false, rvCharacter)
                             if (it.data?.next != null) {
-                                characterAdapter.submitData(it.data?.results!!)
+                                characterAdapter?.submitData(it.data?.results!!)
                             }
                             else{
                                 status = true
@@ -88,6 +87,6 @@ class CharacterFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        binding.rvCharacter.initRecycler(LinearLayoutManager(requireContext()), characterAdapter)
+        binding.rvCharacter.initRecycler(LinearLayoutManager(requireContext()), characterAdapter!!)
     }
 }
