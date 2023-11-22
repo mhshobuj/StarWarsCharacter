@@ -2,6 +2,8 @@ package com.mhs.starwarscharacter.api
 
 import com.mhs.starwarscharacter.response.character.CharacterDetails
 import com.mhs.starwarscharacter.response.character.CharacterList
+import com.mhs.starwarscharacter.response.planet.PlanetDetails
+import com.mhs.starwarscharacter.response.planet.PlanetList
 import com.mhs.starwarscharacter.response.starShip.StarShipDetails
 import com.mhs.starwarscharacter.response.starShip.StarShipList
 import retrofit2.Response
@@ -24,5 +26,12 @@ interface ApiService {
 
     @GET("starships/{id}/")
     suspend fun getStarShipDetails(@Path("id") id: Int): Response<StarShipDetails>
+
+    /** planets api **/
+    @GET("planets/")
+    suspend fun getPlanetsList(@Query("page") page: Int): Response<PlanetList>
+
+    @GET("planets/{id}/")
+    suspend fun getPlanetDetails(@Path("id") id: Int): Response<PlanetDetails>
 
 }

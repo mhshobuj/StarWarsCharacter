@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.activity.PlanetDetailsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/baseInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="Name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/moreDetailesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_round"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/baseInfoLayout">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRPeriodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Rotation Period :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRPeriod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtRPeriodTitle"
+                app:layout_constraintStart_toEndOf="@id/txtRPeriodTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtOPeriodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Obtain Period :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtRPeriodTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtOPeriod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtOPeriodTitle"
+                app:layout_constraintStart_toEndOf="@id/txtOPeriodTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDiameterTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Diameter :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtOPeriodTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDiameter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtDiameterTitle"
+                app:layout_constraintStart_toEndOf="@id/txtDiameterTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClimateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Climate :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtDiameterTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClimate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtClimateTitle"
+                app:layout_constraintStart_toEndOf="@id/txtClimateTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtGravityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Gravity :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtClimateTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtGravity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtGravityTitle"
+                app:layout_constraintStart_toEndOf="@id/txtGravityTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTerrainTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Terrain :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtGravityTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTerrain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtTerrainTitle"
+                app:layout_constraintStart_toEndOf="@id/txtTerrainTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSurfaceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Surface Water :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTerrainTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSurface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSurfaceTitle"
+                app:layout_constraintStart_toEndOf="@id/txtSurfaceTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtPopulationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Population :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtSurfaceTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtPopulation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtPopulationTitle"
+                app:layout_constraintStart_toEndOf="@id/txtPopulationTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ProgressBar
+        android:id="@+id/pBarLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

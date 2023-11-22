@@ -94,4 +94,46 @@ class MainRepository @Inject constructor(private val apiService: ApiService) {
     }.catch {
         emit(DataStatus.error(it.message.toString()))
     }.flowOn(Dispatchers.IO)
+
+    //get the all planets list
+    suspend fun getPlanetsList(page: Int) = flow {
+        emit(DataStatus.loading())
+        val result = apiService.getPlanetsList(page)
+        when (result.code()) {
+            200 -> {
+                emit(DataStatus.success(result.body()))
+            }
+
+            400 -> {
+                emit(DataStatus.error(result.message()))
+            }
+
+            500 -> {
+                emit(DataStatus.error(result.message()))
+            }
+        }
+    }.catch {
+        emit(DataStatus.error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
+
+    //get the planets details
+    suspend fun getPlanetDetails(id: Int) = flow {
+        emit(DataStatus.loading())
+        val result = apiService.getPlanetDetails(id)
+        when (result.code()) {
+            200 -> {
+                emit(DataStatus.success(result.body()))
+            }
+
+            400 -> {
+                emit(DataStatus.error(result.message()))
+            }
+
+            500 -> {
+                emit(DataStatus.error(result.message()))
+            }
+        }
+    }.catch {
+        emit(DataStatus.error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 }
