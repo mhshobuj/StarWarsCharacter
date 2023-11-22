@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="#0e1417"
+    android:background="@color/black"
     tools:context=".ui.activity.CharacterDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,6 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtHeightTitle"
                 app:layout_constraintStart_toEndOf="@id/txtHeightTitle" />
 
@@ -92,6 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
                 app:layout_constraintBaseline_toBaselineOf="@+id/txtMassTitle"
                 app:layout_constraintStart_toEndOf="@id/txtMassTitle" />
 

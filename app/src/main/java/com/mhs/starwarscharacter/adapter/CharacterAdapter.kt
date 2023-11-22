@@ -18,7 +18,7 @@ class CharacterAdapter @Inject constructor(private val context: Context) : Recyc
         fun bind(item: CharacterList.Result) {
             itemBinding.apply {
                 tvName.text = "Name: ".plus(item.name)
-                tvHeight.text = "Height: ".plus(item.height).plus(" inch")
+                tvHeight.text = "Height: ".plus(item.height)
                 tvGender.text = "Gender: ".plus(item.gender)
 
                 // Set onClickListener for the entire item
