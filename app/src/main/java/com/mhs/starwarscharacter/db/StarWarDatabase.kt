@@ -4,9 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.mhs.starwarscharacter.entity.character.CharacterDetailsDB
 import com.mhs.starwarscharacter.entity.character.CharacterListDB
 
-@Database(entities = [CharacterListDB::class], version = 1)
+@Database(entities = [CharacterListDB::class, CharacterDetailsDB::class], version = 2)
 abstract class StarWarDatabase: RoomDatabase() {
     abstract fun starWarDao(): StarWarDao
     companion object{

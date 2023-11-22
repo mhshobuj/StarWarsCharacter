@@ -36,4 +36,7 @@ data class CharacterDetails(
     var url: String,
     @SerializedName("vehicles")
     var vehicles: List<String>
-)
+){
+    // Empty constructor
+    constructor() : this("", "", "", "", emptyList(), "", "", "", "", "", "", "", emptyList(), emptyList(), "", emptyList(), )
+}

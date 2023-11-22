@@ -53,6 +53,7 @@ class CharacterFragment : Fragment() {
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(requireContext())
 
+        //initialize database
         starWarDatabase = StarWarDatabase.getDatabase(requireContext())
 
         characterAdapter = CharacterAdapter(requireContext())
