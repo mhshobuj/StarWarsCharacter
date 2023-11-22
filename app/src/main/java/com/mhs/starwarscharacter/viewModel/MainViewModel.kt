@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.mhs.starwarscharacter.repository.MainRepository
 import com.mhs.starwarscharacter.response.character.CharacterDetails
 import com.mhs.starwarscharacter.response.character.CharacterList
+import com.mhs.starwarscharacter.response.starShip.StarShipDetails
+import com.mhs.starwarscharacter.response.starShip.StarShipList
 import com.mhs.starwarscharacter.utils.DataStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,6 +34,26 @@ class MainViewModel @Inject constructor(private val mainRepository: MainReposito
     fun getCharacterDetails(id: Int) = viewModelScope.launch {
         mainRepository.getCharacterDetails(id).collect {
             _characterDetails.value = it
+        }
+    }
+
+    //getStarShipList
+    private val _starShipsList = MutableLiveData<DataStatus<StarShipList>>()
+    val starShipList: LiveData<DataStatus<StarShipList>> get() = _starShipsList
+
+    fun getStarShipList(page: Int) = viewModelScope.launch {
+        mainRepository.getStarShipList(page).collect {
+            _starShipsList.value = it
+        }
+    }
+
+    //getStarShipDetails
+    private val _starShipDetails = MutableLiveData<DataStatus<StarShipDetails>>()
+    val starShipDetails: LiveData<DataStatus<StarShipDetails>> get() = _starShipDetails
+
+    fun getStarShipDetails(id: Int) = viewModelScope.launch {
+        mainRepository.getStarShipDetails(id).collect {
+            _starShipDetails.value = it
         }
     }
 }

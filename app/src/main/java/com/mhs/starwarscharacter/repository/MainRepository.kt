@@ -52,4 +52,46 @@ class MainRepository @Inject constructor(private val apiService: ApiService) {
     }.catch {
         emit(DataStatus.error(it.message.toString()))
     }.flowOn(Dispatchers.IO)
+
+    //get the all starship list
+    suspend fun getStarShipList(page: Int) = flow {
+        emit(DataStatus.loading())
+        val result = apiService.getStarShipList(page)
+        when (result.code()) {
+            200 -> {
+                emit(DataStatus.success(result.body()))
+            }
+
+            400 -> {
+                emit(DataStatus.error(result.message()))
+            }
+
+            500 -> {
+                emit(DataStatus.error(result.message()))
+            }
+        }
+    }.catch {
+        emit(DataStatus.error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
+
+    //get the starShip details
+    suspend fun getStarShipDetails(id: Int) = flow {
+        emit(DataStatus.loading())
+        val result = apiService.getStarShipDetails(id)
+        when (result.code()) {
+            200 -> {
+                emit(DataStatus.success(result.body()))
+            }
+
+            400 -> {
+                emit(DataStatus.error(result.message()))
+            }
+
+            500 -> {
+                emit(DataStatus.error(result.message()))
+            }
+        }
+    }.catch {
+        emit(DataStatus.error(it.message.toString()))
+    }.flowOn(Dispatchers.IO)
 }

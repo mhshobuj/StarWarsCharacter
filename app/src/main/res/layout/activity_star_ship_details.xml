@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.activity.StarShipDetailsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/baseInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="Name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/moreDetailesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_round"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/baseInfoLayout">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtModelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Model :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtModelTitle"
+                app:layout_constraintStart_toEndOf="@id/txtModelTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtManufacturerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Manufacturer :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtModelTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtManufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtManufacturerTitle"
+                app:layout_constraintStart_toEndOf="@id/txtManufacturerTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCostTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Cost :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtManufacturerTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtCostTitle"
+                app:layout_constraintStart_toEndOf="@id/txtCostTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtLengthTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Length :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCostTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtLengthTitle"
+                app:layout_constraintStart_toEndOf="@id/txtLengthTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSpeedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Max Speed :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLengthTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtSpeedTitle"
+                app:layout_constraintStart_toEndOf="@id/txtSpeedTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCrewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Crew :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtSpeedTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCrew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtCrewTitle"
+                app:layout_constraintStart_toEndOf="@id/txtCrewTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtPassengersTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Passengers :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCrewTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtPassengers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtPassengersTitle"
+                app:layout_constraintStart_toEndOf="@id/txtPassengersTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCapacityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Capacity :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtPassengersTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCapacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtCapacityTitle"
+                app:layout_constraintStart_toEndOf="@id/txtCapacityTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtConsumablesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Consumables :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCapacityTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtConsumables"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtConsumablesTitle"
+                app:layout_constraintStart_toEndOf="@id/txtConsumablesTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRatingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Rating :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtConsumablesTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtRatingTitle"
+                app:layout_constraintStart_toEndOf="@id/txtRatingTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtMGLTTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="MGLT :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtRatingTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtMGLT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtMGLTTitle"
+                app:layout_constraintStart_toEndOf="@id/txtMGLTTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClassTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:text="Class :"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtMGLTTitle" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtClass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@+id/txtClassTitle"
+                app:layout_constraintStart_toEndOf="@id/txtClassTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ProgressBar
+        android:id="@+id/pBarLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
