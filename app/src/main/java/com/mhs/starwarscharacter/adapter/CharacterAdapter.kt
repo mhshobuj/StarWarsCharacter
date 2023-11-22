@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mhs.starwarscharacter.R
 import com.mhs.starwarscharacter.databinding.CharacterItemBinding
 import com.mhs.starwarscharacter.response.character.CharacterList
 import com.mhs.starwarscharacter.ui.activity.CharacterDetailsActivity

@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mhs.starwarscharacter.adapter.CharacterAdapter
 import com.mhs.starwarscharacter.databinding.FragmentCharacterBinding
 import com.mhs.starwarscharacter.db.StarWarDatabase
-import com.mhs.starwarscharacter.entity.character.CharacterList
+import com.mhs.starwarscharacter.entity.character.CharacterListDB
+import com.mhs.starwarscharacter.response.character.CharacterList
 import com.mhs.starwarscharacter.utils.DataStatus
 import com.mhs.starwarscharacter.utils.NetworkChecking
 import com.mhs.starwarscharacter.utils.initRecycler
@@ -37,12 +38,14 @@ class CharacterFragment : Fragment() {
     private var connectivityStatus: String? = null
     private lateinit var starWarDatabase: StarWarDatabase
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCharacterBinding.inflate(layoutInflater)
         return binding.root
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,7 +57,9 @@ class CharacterFragment : Fragment() {
 
         characterAdapter = CharacterAdapter(requireContext())
         setUpRecyclerView()
-        getCharacterList(page)
+        GlobalScope.launch {
+            getCharacterList(page)
+        }
 
         binding.nsScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = binding.nsScrollView.getChildAt(0).height
@@ -64,14 +69,18 @@ class CharacterFragment : Fragment() {
                 Log.e("page", "$page")
                 // Do something when scrolled to the bottom
                 if (!status) {
-                    getCharacterList(page)
+                    GlobalScope.launch {
+                        if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
+                            getCharacterList(page)
+                        }
+                    }
                 }
             }
         }
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    private fun getCharacterList(page: Int) {
+    private suspend fun getCharacterList(page: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
             lifecycleScope.launch {
                 binding.apply {
@@ -90,7 +99,7 @@ class CharacterFragment : Fragment() {
                                     GlobalScope.launch {
                                         it.data?.results?.let { characterList ->
                                             val characters = characterList.map { characterResult ->
-                                                CharacterList(
+                                                CharacterListDB(
                                                     gender = characterResult.gender,
                                                     height = characterResult.height,
                                                     name = characterResult.name,
@@ -123,7 +132,30 @@ class CharacterFragment : Fragment() {
                 }
             }
         } else{
-
+            binding.pBarLoading.isVisible(false, binding.rvCharacter)
+            val characters = starWarDatabase.starWarDao().getCharacterList()
+            val resultsList = characters.map { character ->
+                CharacterList.Result(
+                    birthYear = "",
+                    created = "",
+                    edited = "",
+                    eyeColor = "",
+                    films = emptyList(),
+                    gender = character.gender,
+                    hairColor = "",
+                    height = character.height,
+                    homeworld = "",
+                    mass = "",
+                    name = character.name,
+                    skinColor = "",
+                    species = emptyList(),
+                    starships = emptyList(),
+                    url = character.url,
+                    vehicles = emptyList()
+                )
+            }
+            val characterList = CharacterList(1,"", "", resultsList)
+            characterAdapter?.submitData(characterList.results)
         }
     }
 
