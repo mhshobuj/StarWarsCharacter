@@ -72,7 +72,8 @@ class PlanetDetailsActivity : AppCompatActivity() {
                                     it.data?.let { planetDetails ->
                                         val planetDetail = PlanetDetailsDB().apply {
                                             name = planetDetails?.name.toString()
-                                            rotation_period = planetDetails?.rotationPeriod.toString()
+                                            rotation_period =
+                                                planetDetails?.rotationPeriod.toString()
                                             orbital_period = planetDetails?.orbitalPeriod.toString()
                                             diameter = planetDetails?.diameter.toString()
                                             climate = planetDetails?.climate.toString()
@@ -105,18 +106,28 @@ class PlanetDetailsActivity : AppCompatActivity() {
             binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
                 val planetDetails = starWarDatabase.starWarDao().getPlanetDetails(itemURL!!)
-                val planetDetail = PlanetDetails().apply {
-                    climate = planetDetails.climate
-                    diameter = planetDetails.diameter
-                    gravity = planetDetails.gravity
-                    name = planetDetails.name
-                    rotationPeriod = planetDetails.rotation_period
-                    orbitalPeriod = planetDetails.orbital_period
-                    terrain = planetDetails.terrain
-                    surfaceWater = planetDetails.surface_water
-                    population = planetDetails.population
+                if (planetDetails == null) {
+                    runOnUiThread(Runnable {
+                        Toast.makeText(
+                            this@PlanetDetailsActivity,
+                            "No Planet details in Local Store",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    })
+                } else {
+                    val planetDetail = PlanetDetails().apply {
+                        climate = planetDetails.climate
+                        diameter = planetDetails.diameter
+                        gravity = planetDetails.gravity
+                        name = planetDetails.name
+                        rotationPeriod = planetDetails.rotation_period
+                        orbitalPeriod = planetDetails.orbital_period
+                        terrain = planetDetails.terrain
+                        surfaceWater = planetDetails.surface_water
+                        population = planetDetails.population
+                    }
+                    setValue(planetDetail)
                 }
-                setValue(planetDetail)
             }
         }
     }

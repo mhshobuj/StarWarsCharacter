@@ -76,16 +76,21 @@ class StarShipDetailsActivity : AppCompatActivity() {
                                             name = starShipDetails?.name.toString()
                                             model = starShipDetails?.model.toString()
                                             manufacturer = starShipDetails?.manufacturer.toString()
-                                            cost_in_credits = starShipDetails?.costInCredits.toString()
+                                            cost_in_credits =
+                                                starShipDetails?.costInCredits.toString()
                                             length = starShipDetails?.length.toString()
-                                            max_atmosphering_speed = starShipDetails?.maxAtmospheringSpeed.toString()
+                                            max_atmosphering_speed =
+                                                starShipDetails?.maxAtmospheringSpeed.toString()
                                             crew = starShipDetails?.crew.toString()
                                             passengers = starShipDetails?.passengers.toString()
-                                            cargo_capacity = starShipDetails?.cargoCapacity.toString()
+                                            cargo_capacity =
+                                                starShipDetails?.cargoCapacity.toString()
                                             consumables = starShipDetails?.consumables.toString()
-                                            hyperdrive_rating = starShipDetails?.hyperdriveRating.toString()
+                                            hyperdrive_rating =
+                                                starShipDetails?.hyperdriveRating.toString()
                                             MGLT = starShipDetails?.mGLT.toString()
-                                            starship_class = starShipDetails?.starshipClass.toString()
+                                            starship_class =
+                                                starShipDetails?.starshipClass.toString()
                                             url = starShipDetails?.url.toString()
                                         }
                                         starWarDatabase.starWarDao()
@@ -111,22 +116,32 @@ class StarShipDetailsActivity : AppCompatActivity() {
             binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
                 val starShipDetails = starWarDatabase.starWarDao().getStarShipDetails(itemURL!!)
-                val starShipDetail = StarShipDetails().apply {
-                    name = starShipDetails.name
-                    model = starShipDetails.model
-                    manufacturer = starShipDetails.manufacturer
-                    costInCredits = starShipDetails.cost_in_credits
-                    length = starShipDetails.length
-                    maxAtmospheringSpeed = starShipDetails.max_atmosphering_speed
-                    crew = starShipDetails.crew
-                    passengers = starShipDetails.passengers
-                    cargoCapacity = starShipDetails.cargo_capacity
-                    consumables = starShipDetails.consumables
-                    hyperdriveRating = starShipDetails.hyperdrive_rating
-                    mGLT = starShipDetails.MGLT
-                    starshipClass = starShipDetails.starship_class
+                if (starShipDetails == null) {
+                    runOnUiThread(Runnable {
+                        Toast.makeText(
+                            this@StarShipDetailsActivity,
+                            "No StarShip details in Local Store",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    })
+                } else {
+                    val starShipDetail = StarShipDetails().apply {
+                        name = starShipDetails.name
+                        model = starShipDetails.model
+                        manufacturer = starShipDetails.manufacturer
+                        costInCredits = starShipDetails.cost_in_credits
+                        length = starShipDetails.length
+                        maxAtmospheringSpeed = starShipDetails.max_atmosphering_speed
+                        crew = starShipDetails.crew
+                        passengers = starShipDetails.passengers
+                        cargoCapacity = starShipDetails.cargo_capacity
+                        consumables = starShipDetails.consumables
+                        hyperdriveRating = starShipDetails.hyperdrive_rating
+                        mGLT = starShipDetails.MGLT
+                        starshipClass = starShipDetails.starship_class
+                    }
+                    setValue(starShipDetail)
                 }
-                setValue(starShipDetail)
             }
         }
     }

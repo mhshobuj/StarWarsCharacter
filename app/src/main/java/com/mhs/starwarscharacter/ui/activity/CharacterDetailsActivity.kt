@@ -1,10 +1,9 @@
 package com.mhs.starwarscharacter.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.mhs.starwarscharacter.databinding.ActivityCharacterDetailsBinding
 import com.mhs.starwarscharacter.db.StarWarDatabase
@@ -104,25 +103,35 @@ class CharacterDetailsActivity : AppCompatActivity() {
             binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
                 val characterDetails = starWarDatabase.starWarDao().getCharacterDetails(itemURL!!)
-                val characterDetail = CharacterDetails().apply {
-                    birthYear = characterDetails.birthYear
-                    created = ""
-                    edited = ""
-                    eyeColor = characterDetails.eyeColor
-                    films = emptyList()
-                    gender = characterDetails.gender
-                    hairColor = characterDetails.hairColor
-                    height = characterDetails.height
-                    homeworld = ""
-                    mass = characterDetails.mass
-                    name = characterDetails.name
-                    skinColor = characterDetails.skinColor
-                    species = emptyList()
-                    starships = emptyList()
-                    url = characterDetails.url
-                    vehicles = emptyList()
+                if (characterDetails == null) {
+                    runOnUiThread(Runnable {
+                        Toast.makeText(
+                            this@CharacterDetailsActivity,
+                            "No character details in Local Store",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    })
+                } else {
+                    val characterDetail = CharacterDetails().apply {
+                        birthYear = characterDetails.birthYear
+                        created = ""
+                        edited = ""
+                        eyeColor = characterDetails.eyeColor
+                        films = emptyList()
+                        gender = characterDetails.gender
+                        hairColor = characterDetails.hairColor
+                        height = characterDetails.height
+                        homeworld = ""
+                        mass = characterDetails.mass
+                        name = characterDetails.name
+                        skinColor = characterDetails.skinColor
+                        species = emptyList()
+                        starships = emptyList()
+                        url = characterDetails.url
+                        vehicles = emptyList()
+                    }
+                    setValue(characterDetail)
                 }
-                setValue(characterDetail)
             }
         }
     }
