@@ -6,6 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mhs.starwarscharacter.entity.character.CharacterDetailsDB
 import com.mhs.starwarscharacter.entity.character.CharacterListDB
+import com.mhs.starwarscharacter.entity.planet.PlanetDetailsDB
+import com.mhs.starwarscharacter.entity.planet.PlanetListDB
 import com.mhs.starwarscharacter.entity.starShip.StarShipDetailsDB
 import com.mhs.starwarscharacter.entity.starShip.StarShipListDB
 
@@ -37,4 +39,17 @@ interface StarWarDao {
 
     @Query("SELECT * FROM starShip_details WHERE url = :url")
     suspend fun getStarShipDetails(url: String) : StarShipDetailsDB
+
+    //for planets
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addPlanets(planetListDB: List<PlanetListDB>)
+
+    @Query("SELECT * FROM planets")
+    suspend fun getPlanets() : List<PlanetListDB>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addPlanetDetails(planetDetailsDB: PlanetDetailsDB)
+
+    @Query("SELECT * FROM planet_details WHERE url = :url")
+    suspend fun getPlanetDetails(url: String) : PlanetDetailsDB
 }

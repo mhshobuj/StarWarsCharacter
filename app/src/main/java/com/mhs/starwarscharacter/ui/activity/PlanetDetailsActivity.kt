@@ -7,12 +7,14 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mhs.starwarscharacter.databinding.ActivityPlanetDetailsBinding
 import com.mhs.starwarscharacter.db.StarWarDatabase
+import com.mhs.starwarscharacter.entity.planet.PlanetDetailsDB
 import com.mhs.starwarscharacter.response.planet.PlanetDetails
 import com.mhs.starwarscharacter.utils.DataStatus
 import com.mhs.starwarscharacter.utils.NetworkChecking
 import com.mhs.starwarscharacter.utils.isVisible
 import com.mhs.starwarscharacter.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -60,23 +62,24 @@ class PlanetDetailsActivity : AppCompatActivity() {
                                 pBarLoading.isVisible(false, mainLayout)
                                 it.data?.let { value -> setValue(value) }
 
-                                /*GlobalScope.launch {
-                                    it.data.let { characterDetails ->
-                                        val characterDetail = CharacterDetailsDB().apply {
-                                            birthYear = characterDetails?.birthYear.toString()
-                                            eyeColor = characterDetails?.eyeColor.toString()
-                                            gender = characterDetails?.gender.toString()
-                                            hairColor = characterDetails?.hairColor.toString()
-                                            height = characterDetails?.height.toString()
-                                            mass = characterDetails?.mass.toString()
-                                            name = characterDetails?.name.toString()
-                                            skinColor = characterDetails?.skinColor.toString()
-                                            url = characterDetails?.url.toString()
+                                GlobalScope.launch {
+                                    it.data.let { planetDetails ->
+                                        val planetDetail = PlanetDetailsDB().apply {
+                                            name = planetDetails?.name.toString()
+                                            rotation_period = planetDetails?.rotationPeriod.toString()
+                                            orbital_period = planetDetails?.orbitalPeriod.toString()
+                                            diameter = planetDetails?.diameter.toString()
+                                            climate = planetDetails?.climate.toString()
+                                            gravity = planetDetails?.gravity.toString()
+                                            terrain = planetDetails?.terrain.toString()
+                                            surface_water = planetDetails?.surfaceWater.toString()
+                                            population = planetDetails?.population.toString()
+                                            url = planetDetails?.url.toString()
                                         }
                                         starWarDatabase.starWarDao()
-                                            .addCharacterDetails(characterDetail)
+                                            .addPlanetDetails(planetDetail)
                                     }
-                                }*/
+                                }
                             }
 
                             DataStatus.Status.ERROR -> {
@@ -92,29 +95,22 @@ class PlanetDetailsActivity : AppCompatActivity() {
                 }
             }
         } else{
-            /*binding.pBarLoading.isVisible(false, binding.mainLayout)
+            binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
-                val characterDetails = starWarDatabase.starWarDao().getCharacterDetails(itemURL!!)
-                val characterDetail = CharacterDetails().apply {
-                    birthYear = characterDetails.birthYear
-                    created = ""
-                    edited = ""
-                    eyeColor = characterDetails.eyeColor
-                    films = emptyList()
-                    gender = characterDetails.gender
-                    hairColor = characterDetails.hairColor
-                    height = characterDetails.height
-                    homeworld = ""
-                    mass = characterDetails.mass
-                    name = characterDetails.name
-                    skinColor = characterDetails.skinColor
-                    species = emptyList()
-                    starships = emptyList()
-                    url = characterDetails.url
-                    vehicles = emptyList()
+                val planetDetails = starWarDatabase.starWarDao().getPlanetDetails(itemURL!!)
+                val planetDetail = PlanetDetails().apply {
+                    climate = planetDetails.climate
+                    diameter = planetDetails.diameter
+                    gravity = planetDetails.gravity
+                    name = planetDetails.name
+                    rotationPeriod = planetDetails.rotation_period
+                    orbitalPeriod = planetDetails.orbital_period
+                    terrain = planetDetails.terrain
+                    surfaceWater = planetDetails.surface_water
+                    population = planetDetails.population
                 }
-                setValue(characterDetail)
-            }*/
+                setValue(planetDetail)
+            }
         }
     }
 

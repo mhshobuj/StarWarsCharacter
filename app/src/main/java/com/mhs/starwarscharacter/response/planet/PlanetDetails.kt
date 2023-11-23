@@ -32,4 +32,6 @@ data class PlanetDetails(
     var terrain: String,
     @SerializedName("url")
     var url: String
-)
+){
+    constructor(): this("", "", "", "",  emptyList(), "","", "", "", emptyList(), "", "", "", "")
+}

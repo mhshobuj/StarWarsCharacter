@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mhs.starwarscharacter.adapter.PlanetAdapter
 import com.mhs.starwarscharacter.databinding.FragmentPlanetBinding
 import com.mhs.starwarscharacter.db.StarWarDatabase
+import com.mhs.starwarscharacter.entity.planet.PlanetListDB
+import com.mhs.starwarscharacter.response.planet.PlanetList
 import com.mhs.starwarscharacter.utils.DataStatus
 import com.mhs.starwarscharacter.utils.NetworkChecking
 import com.mhs.starwarscharacter.utils.initRecycler
@@ -78,7 +80,7 @@ class PlanetFragment : Fragment() {
         }
     }
 
-    private fun getPlanetList(page: Int) {
+    private suspend fun getPlanetList(page: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
             lifecycleScope.launch {
                 binding.apply {
@@ -94,19 +96,19 @@ class PlanetFragment : Fragment() {
                                 if (it.data?.next != null) {
                                     planetAdapter?.submitData(it.data?.results!!)
 
-                                    /*GlobalScope.launch {
-                                        it.data?.results?.let { characterList ->
-                                            val characters = characterList.map { characterResult ->
-                                                CharacterListDB(
-                                                    gender = characterResult.gender,
-                                                    height = characterResult.height,
-                                                    name = characterResult.name,
-                                                    url = characterResult.url
+                                    GlobalScope.launch {
+                                        it.data?.results?.let { planetList ->
+                                            val planets = planetList.map { planetResult ->
+                                                PlanetListDB(
+                                                    name = planetResult.name,
+                                                    diameter = planetResult.diameter,
+                                                    population = planetResult.population,
+                                                    url = planetResult.url
                                                 )
                                             }
-                                            starWarDatabase.starWarDao().addCharacter(characters)
+                                            starWarDatabase.starWarDao().addPlanets(planets)
                                         }
-                                    }*/
+                                    }
                                 } else {
                                     status = true
                                     Toast.makeText(
@@ -130,30 +132,28 @@ class PlanetFragment : Fragment() {
                 }
             }
         } else{
-            /*binding.pBarLoading.isVisible(false, binding.rvCharacter)
-            val characters = starWarDatabase.starWarDao().getCharacterList()
-            val resultsList = characters.map { character ->
-                CharacterList.Result(
-                    birthYear = "",
+            binding.pBarLoading.isVisible(false, binding.rvPlanet)
+            val planets = starWarDatabase.starWarDao().getPlanets()
+            val resultsList = planets.map { planet ->
+                PlanetList.Result(
+                    climate = "",
                     created = "",
+                    diameter = planet.diameter,
                     edited = "",
-                    eyeColor = "",
                     films = emptyList(),
-                    gender = character.gender,
-                    hairColor = "",
-                    height = character.height,
-                    homeworld = "",
-                    mass = "",
-                    name = character.name,
-                    skinColor = "",
-                    species = emptyList(),
-                    starships = emptyList(),
-                    url = character.url,
-                    vehicles = emptyList()
+                    gravity = "",
+                    name = planet.name,
+                    orbitalPeriod = "",
+                    population = planet.population,
+                    residents = emptyList(),
+                    rotationPeriod = "",
+                    surfaceWater = "",
+                    terrain = "",
+                    url = planet.url
                 )
             }
-            val characterList = CharacterList(1,"", "", resultsList)
-            characterAdapter?.submitData(characterList.results)*/
+            val planetList = PlanetList(1,"", "", resultsList)
+            planetAdapter?.submitData(planetList.results)
         }
 
     }
