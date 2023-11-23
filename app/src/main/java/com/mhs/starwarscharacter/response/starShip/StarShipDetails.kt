@@ -40,4 +40,6 @@ data class StarShipDetails(
     var starshipClass: String,
     @SerializedName("url")
     var url: String
-)
+){
+    constructor(): this("", "", "", "", "","", emptyList(), "","", "", "", "", "", "", "", emptyList(), "", "")
+}

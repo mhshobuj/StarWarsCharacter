@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.mhs.starwarscharacter.databinding.ActivityStarShipDetailsBinding
 import com.mhs.starwarscharacter.db.StarWarDatabase
 import com.mhs.starwarscharacter.entity.character.CharacterDetailsDB
+import com.mhs.starwarscharacter.entity.starShip.StarShipDetailsDB
 import com.mhs.starwarscharacter.response.character.CharacterDetails
 import com.mhs.starwarscharacter.response.starShip.StarShipDetails
 import com.mhs.starwarscharacter.utils.DataStatus
@@ -63,23 +64,28 @@ class StarShipDetailsActivity : AppCompatActivity() {
                                 pBarLoading.isVisible(false, mainLayout)
                                 it.data?.let { value -> setValue(value) }
 
-                                /*GlobalScope.launch {
-                                    it.data.let { characterDetails ->
-                                        val characterDetail = CharacterDetailsDB().apply {
-                                            birthYear = characterDetails?.birthYear.toString()
-                                            eyeColor = characterDetails?.eyeColor.toString()
-                                            gender = characterDetails?.gender.toString()
-                                            hairColor = characterDetails?.hairColor.toString()
-                                            height = characterDetails?.height.toString()
-                                            mass = characterDetails?.mass.toString()
-                                            name = characterDetails?.name.toString()
-                                            skinColor = characterDetails?.skinColor.toString()
-                                            url = characterDetails?.url.toString()
+                                GlobalScope.launch {
+                                    it.data.let { starShipDetails ->
+                                        val starShipDetail = StarShipDetailsDB().apply {
+                                            name = starShipDetails?.name.toString()
+                                            model = starShipDetails?.model.toString()
+                                            manufacturer = starShipDetails?.manufacturer.toString()
+                                            cost_in_credits = starShipDetails?.costInCredits.toString()
+                                            length = starShipDetails?.length.toString()
+                                            max_atmosphering_speed = starShipDetails?.maxAtmospheringSpeed.toString()
+                                            crew = starShipDetails?.crew.toString()
+                                            passengers = starShipDetails?.passengers.toString()
+                                            cargo_capacity = starShipDetails?.cargoCapacity.toString()
+                                            consumables = starShipDetails?.consumables.toString()
+                                            hyperdrive_rating = starShipDetails?.hyperdriveRating.toString()
+                                            MGLT = starShipDetails?.mGLT.toString()
+                                            starship_class = starShipDetails?.starshipClass.toString()
+                                            url = starShipDetails?.url.toString()
                                         }
                                         starWarDatabase.starWarDao()
-                                            .addCharacterDetails(characterDetail)
+                                            .addStarShipDetails(starShipDetail)
                                     }
-                                }*/
+                                }
                             }
 
                             DataStatus.Status.ERROR -> {
@@ -95,29 +101,26 @@ class StarShipDetailsActivity : AppCompatActivity() {
                 }
             }
         } else{
-            /*binding.pBarLoading.isVisible(false, binding.mainLayout)
+            binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
-                val characterDetails = starWarDatabase.starWarDao().getCharacterDetails(itemURL!!)
-                val characterDetail = CharacterDetails().apply {
-                    birthYear = characterDetails.birthYear
-                    created = ""
-                    edited = ""
-                    eyeColor = characterDetails.eyeColor
-                    films = emptyList()
-                    gender = characterDetails.gender
-                    hairColor = characterDetails.hairColor
-                    height = characterDetails.height
-                    homeworld = ""
-                    mass = characterDetails.mass
-                    name = characterDetails.name
-                    skinColor = characterDetails.skinColor
-                    species = emptyList()
-                    starships = emptyList()
-                    url = characterDetails.url
-                    vehicles = emptyList()
+                val starShipDetails = starWarDatabase.starWarDao().getStarShipDetails(itemURL!!)
+                val starShipDetail = StarShipDetails().apply {
+                    name = starShipDetails.name
+                    model = starShipDetails.model
+                    manufacturer = starShipDetails.manufacturer
+                    costInCredits = starShipDetails.cost_in_credits
+                    length = starShipDetails.length
+                    maxAtmospheringSpeed = starShipDetails.max_atmosphering_speed
+                    crew = starShipDetails.crew
+                    passengers = starShipDetails.passengers
+                    cargoCapacity = starShipDetails.cargo_capacity
+                    consumables = starShipDetails.consumables
+                    hyperdriveRating = starShipDetails.hyperdrive_rating
+                    mGLT = starShipDetails.MGLT
+                    starshipClass = starShipDetails.starship_class
                 }
-                setValue(characterDetail)
-            }*/
+                setValue(starShipDetail)
+            }
         }
     }
 

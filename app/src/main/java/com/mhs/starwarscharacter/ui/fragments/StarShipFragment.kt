@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mhs.starwarscharacter.adapter.StarShipAdapter
 import com.mhs.starwarscharacter.databinding.FragmentStarShipBinding
 import com.mhs.starwarscharacter.db.StarWarDatabase
+import com.mhs.starwarscharacter.entity.starShip.StarShipListDB
+import com.mhs.starwarscharacter.response.starShip.StarShipList
 import com.mhs.starwarscharacter.utils.DataStatus
 import com.mhs.starwarscharacter.utils.NetworkChecking
 import com.mhs.starwarscharacter.utils.initRecycler
@@ -80,7 +82,7 @@ class StarShipFragment : Fragment() {
         }
     }
 
-    private fun getStarShipList(page: Int) {
+    private suspend fun getStarShipList(page: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
             lifecycleScope.launch {
                 binding.apply {
@@ -96,19 +98,19 @@ class StarShipFragment : Fragment() {
                                 if (it.data?.next != null) {
                                     starShipAdapter?.submitData(it.data?.results!!)
 
-                                    /*GlobalScope.launch {
-                                        it.data?.results?.let { characterList ->
-                                            val characters = characterList.map { characterResult ->
-                                                CharacterListDB(
-                                                    gender = characterResult.gender,
-                                                    height = characterResult.height,
-                                                    name = characterResult.name,
-                                                    url = characterResult.url
+                                    GlobalScope.launch {
+                                        it.data?.results?.let { starShipList ->
+                                            val starShip = starShipList.map { starShipResult ->
+                                                StarShipListDB(
+                                                    name = starShipResult.name,
+                                                    model = starShipResult.model,
+                                                    costInCredits = starShipResult.costInCredits,
+                                                    url = starShipResult.url
                                                 )
                                             }
-                                            starWarDatabase.starWarDao().addCharacter(characters)
+                                            starWarDatabase.starWarDao().addStarShip(starShip)
                                         }
-                                    }*/
+                                    }
                                 } else {
                                     status = true
                                     Toast.makeText(
@@ -132,30 +134,32 @@ class StarShipFragment : Fragment() {
                 }
             }
         } else{
-            /*binding.pBarLoading.isVisible(false, binding.rvCharacter)
-            val characters = starWarDatabase.starWarDao().getCharacterList()
-            val resultsList = characters.map { character ->
-                CharacterList.Result(
-                    birthYear = "",
+            binding.pBarLoading.isVisible(false, binding.rvStarShip)
+            val starShips = starWarDatabase.starWarDao().getStarWarList()
+            val resultsList = starShips.map { starShip ->
+                StarShipList.Result(
+                    cargoCapacity = "",
+                    consumables = "",
+                    costInCredits = starShip.costInCredits,
                     created = "",
+                    crew = "",
                     edited = "",
-                    eyeColor = "",
                     films = emptyList(),
-                    gender = character.gender,
-                    hairColor = "",
-                    height = character.height,
-                    homeworld = "",
-                    mass = "",
-                    name = character.name,
-                    skinColor = "",
-                    species = emptyList(),
-                    starships = emptyList(),
-                    url = character.url,
-                    vehicles = emptyList()
+                    hyperdriveRating = "",
+                    length = "",
+                    mGLT = "",
+                    manufacturer = "",
+                    maxAtmospheringSpeed = "",
+                    model = starShip.model,
+                    name = starShip.name,
+                    passengers = "",
+                    pilots = emptyList(),
+                    starshipClass = "",
+                    url = starShip.url
                 )
             }
-            val characterList = CharacterList(1,"", "", resultsList)
-            characterAdapter?.submitData(characterList.results)*/
+            val starShipList = StarShipList(1,"", "", resultsList)
+            starShipAdapter?.submitData(starShipList.results)
         }
     }
 
