@@ -70,15 +70,15 @@ class CharacterDetailsActivity : AppCompatActivity() {
                                 GlobalScope.launch {
                                     it.data?.let { characterDetails ->
                                         val characterDetail = CharacterDetailsDB().apply {
-                                            birthYear = characterDetails.birthYear.toString()
-                                            eyeColor = characterDetails.eyeColor.toString()
-                                            gender = characterDetails.gender.toString()
-                                            hairColor = characterDetails.hairColor.toString()
-                                            height = characterDetails.height.toString()
-                                            mass = characterDetails.mass.toString()
-                                            name = characterDetails.name.toString()
-                                            skinColor = characterDetails.skinColor.toString()
-                                            url = characterDetails.url.toString()
+                                            birthYear = characterDetails.birthYear
+                                            eyeColor = characterDetails.eyeColor
+                                            gender = characterDetails.gender
+                                            hairColor = characterDetails.hairColor
+                                            height = characterDetails.height
+                                            mass = characterDetails.mass
+                                            name = characterDetails.name
+                                            skinColor = characterDetails.skinColor
+                                            url = characterDetails.url
                                         }
                                         starWarDatabase.starWarDao()
                                             .addCharacterDetails(characterDetail)

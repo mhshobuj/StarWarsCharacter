@@ -73,25 +73,20 @@ class StarShipDetailsActivity : AppCompatActivity() {
                                 GlobalScope.launch {
                                     it.data?.let { starShipDetails ->
                                         val starShipDetail = StarShipDetailsDB().apply {
-                                            name = starShipDetails?.name.toString()
-                                            model = starShipDetails?.model.toString()
-                                            manufacturer = starShipDetails?.manufacturer.toString()
-                                            cost_in_credits =
-                                                starShipDetails?.costInCredits.toString()
-                                            length = starShipDetails?.length.toString()
-                                            max_atmosphering_speed =
-                                                starShipDetails?.maxAtmospheringSpeed.toString()
-                                            crew = starShipDetails?.crew.toString()
-                                            passengers = starShipDetails?.passengers.toString()
-                                            cargo_capacity =
-                                                starShipDetails?.cargoCapacity.toString()
-                                            consumables = starShipDetails?.consumables.toString()
-                                            hyperdrive_rating =
-                                                starShipDetails?.hyperdriveRating.toString()
-                                            MGLT = starShipDetails?.mGLT.toString()
-                                            starship_class =
-                                                starShipDetails?.starshipClass.toString()
-                                            url = starShipDetails?.url.toString()
+                                            name = starShipDetails.name
+                                            model = starShipDetails.model
+                                            manufacturer = starShipDetails.manufacturer
+                                            cost_in_credits = starShipDetails.costInCredits
+                                            length = starShipDetails.length
+                                            max_atmosphering_speed = starShipDetails.maxAtmospheringSpeed
+                                            crew = starShipDetails.crew
+                                            passengers = starShipDetails.passengers
+                                            cargo_capacity = starShipDetails.cargoCapacity
+                                            consumables = starShipDetails.consumables
+                                            hyperdrive_rating = starShipDetails.hyperdriveRating
+                                            MGLT = starShipDetails.mGLT
+                                            starship_class = starShipDetails.starshipClass
+                                            url = starShipDetails.url
                                         }
                                         starWarDatabase.starWarDao()
                                             .addStarShipDetails(starShipDetail)

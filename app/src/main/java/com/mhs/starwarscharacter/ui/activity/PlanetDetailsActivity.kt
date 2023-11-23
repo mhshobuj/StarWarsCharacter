@@ -71,17 +71,16 @@ class PlanetDetailsActivity : AppCompatActivity() {
                                 GlobalScope.launch {
                                     it.data?.let { planetDetails ->
                                         val planetDetail = PlanetDetailsDB().apply {
-                                            name = planetDetails?.name.toString()
-                                            rotation_period =
-                                                planetDetails?.rotationPeriod.toString()
-                                            orbital_period = planetDetails?.orbitalPeriod.toString()
-                                            diameter = planetDetails?.diameter.toString()
-                                            climate = planetDetails?.climate.toString()
-                                            gravity = planetDetails?.gravity.toString()
-                                            terrain = planetDetails?.terrain.toString()
-                                            surface_water = planetDetails?.surfaceWater.toString()
-                                            population = planetDetails?.population.toString()
-                                            url = planetDetails?.url.toString()
+                                            name = planetDetails.name
+                                            rotation_period = planetDetails.rotationPeriod
+                                            orbital_period = planetDetails.orbitalPeriod
+                                            diameter = planetDetails.diameter
+                                            climate = planetDetails.climate
+                                            gravity = planetDetails.gravity
+                                            terrain = planetDetails.terrain
+                                            surface_water = planetDetails.surfaceWater
+                                            population = planetDetails.population
+                                            url = planetDetails.url
                                         }
                                         starWarDatabase.starWarDao()
                                             .addPlanetDetails(planetDetail)
