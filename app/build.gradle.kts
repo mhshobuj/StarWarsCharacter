@@ -83,9 +83,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
 
-    /** Coil- image download from network **/
-    implementation ("io.coil-kt:coil:2.2.2")
-
+    /** Room Database **/
     val roomVersion = "2.6.0"
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
