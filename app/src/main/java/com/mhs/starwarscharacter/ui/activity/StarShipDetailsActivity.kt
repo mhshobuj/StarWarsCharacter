@@ -27,21 +27,25 @@ class StarShipDetailsActivity : AppCompatActivity() {
     private lateinit var starWarDatabase: StarWarDatabase
     private var connectivityStatus: String? = null
     private var itemURL: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize view binding
         binding = ActivityStarShipDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /** Network checking **/
+        // Check network connectivity
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(this)
 
-        //initialize database
+        // Initialize the Room database
         starWarDatabase = StarWarDatabase.getDatabase(this)
 
-        // Retrieve the string value from the Intent
+        // Retrieve the starship's URL from the Intent
         itemURL = intent.getStringExtra("itemURL")
-        if (itemURL!!.isNotEmpty()){
+        if (!itemURL.isNullOrEmpty()) {
+            // Extract starship ID from the URL and fetch details
             val starShipID = extractCharacterIDFromUrl(itemURL!!)
             if (starShipID != null) {
                 getStarShipDetails(starShipID)
@@ -51,6 +55,7 @@ class StarShipDetailsActivity : AppCompatActivity() {
 
     private fun getStarShipDetails(id: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
+            // Fetch starship details from the network if there is an internet connection
             lifecycleScope.launch {
                 binding.apply {
                     viewModel.getStarShipDetails(id)
@@ -64,8 +69,9 @@ class StarShipDetailsActivity : AppCompatActivity() {
                                 pBarLoading.isVisible(false, mainLayout)
                                 it.data?.let { value -> setValue(value) }
 
+                                // Save starship details to the local database
                                 GlobalScope.launch {
-                                    it.data.let { starShipDetails ->
+                                    it.data?.let { starShipDetails ->
                                         val starShipDetail = StarShipDetailsDB().apply {
                                             name = starShipDetails?.name.toString()
                                             model = starShipDetails?.model.toString()
@@ -100,7 +106,8 @@ class StarShipDetailsActivity : AppCompatActivity() {
                     }
                 }
             }
-        } else{
+        } else {
+            // Fetch starship details from the local database if there is no internet connection
             binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
                 val starShipDetails = starWarDatabase.starWarDao().getStarShipDetails(itemURL!!)
@@ -125,6 +132,7 @@ class StarShipDetailsActivity : AppCompatActivity() {
     }
 
     private fun setValue(data: StarShipDetails) {
+        // Set values to the views
         binding.apply {
             txtName.text = data.name
             txtModel.text = data.model

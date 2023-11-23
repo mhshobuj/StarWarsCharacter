@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class StarShipFragment : Fragment() {
 
-    private var _binding : FragmentStarShipBinding?=null
+    private var _binding: FragmentStarShipBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels()
@@ -51,11 +51,11 @@ class StarShipFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /** Network checking */
+        // Network checking
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(requireContext())
 
-        //initialize database
+        // Initialize the Room database
         starWarDatabase = StarWarDatabase.getDatabase(requireContext())
 
         starShipAdapter = StarShipAdapter(requireContext())
@@ -64,6 +64,7 @@ class StarShipFragment : Fragment() {
             getStarShipList(page)
         }
 
+        // Set up scroll listener for infinite scrolling
         binding.nsScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = binding.nsScrollView.getChildAt(0).height
             val scrollViewHeight = v.height
@@ -82,6 +83,7 @@ class StarShipFragment : Fragment() {
         }
     }
 
+    // Coroutine function to fetch starship list
     private suspend fun getStarShipList(page: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
             lifecycleScope.launch {
@@ -98,9 +100,10 @@ class StarShipFragment : Fragment() {
                                 if (it.data?.next != null) {
                                     starShipAdapter?.submitData(it.data?.results!!)
 
+                                    // Save starships to the local database
                                     GlobalScope.launch {
                                         it.data?.results?.let { starShipList ->
-                                            val starShip = starShipList.map { starShipResult ->
+                                            val starShips = starShipList.map { starShipResult ->
                                                 StarShipListDB(
                                                     name = starShipResult.name,
                                                     model = starShipResult.model,
@@ -108,7 +111,7 @@ class StarShipFragment : Fragment() {
                                                     url = starShipResult.url
                                                 )
                                             }
-                                            starWarDatabase.starWarDao().addStarShip(starShip)
+                                            starWarDatabase.starWarDao().addStarShip(starShips)
                                         }
                                     }
                                 } else {
@@ -133,7 +136,8 @@ class StarShipFragment : Fragment() {
                     }
                 }
             }
-        } else{
+        } else {
+            // Fetch starships from the local database if there is no internet connection
             binding.pBarLoading.isVisible(false, binding.rvStarShip)
             val starShips = starWarDatabase.starWarDao().getStarWarList()
             val resultsList = starShips.map { starShip ->
@@ -158,12 +162,19 @@ class StarShipFragment : Fragment() {
                     url = starShip.url
                 )
             }
-            val starShipList = StarShipList(1,"", "", resultsList)
+            val starShipList = StarShipList(1, "", "", resultsList)
             starShipAdapter?.submitData(starShipList.results)
         }
     }
 
+    // Set up RecyclerView with the starship adapter
     private fun setUpRecyclerView() {
         binding.rvStarShip.initRecycler(LinearLayoutManager(requireContext()), starShipAdapter!!)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Clean up the binding variable to avoid memory leaks
+        _binding = null
     }
 }

@@ -2,8 +2,13 @@ package com.mhs.starwarscharacter.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-
 object NetworkChecking {
+    /**
+     * Gets the connectivity status as a string.
+     *
+     * @param context The application context.
+     * @return A string indicating the connectivity status.
+     */
     fun getConnectivityStatusString(context: Context): String {
         var status: String? = null
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

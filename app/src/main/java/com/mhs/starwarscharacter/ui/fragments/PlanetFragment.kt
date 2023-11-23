@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class PlanetFragment : Fragment() {
 
-    private var _binding : FragmentPlanetBinding?=null
+    private var _binding: FragmentPlanetBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels()
@@ -49,11 +49,11 @@ class PlanetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /** Network checking */
+        // Network checking
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(requireContext())
 
-        //initialize database
+        // Initialize the Room database
         starWarDatabase = StarWarDatabase.getDatabase(requireContext())
 
         planetAdapter = PlanetAdapter(requireContext())
@@ -62,6 +62,7 @@ class PlanetFragment : Fragment() {
             getPlanetList(page)
         }
 
+        // Set up scroll listener for infinite scrolling
         binding.nsScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = binding.nsScrollView.getChildAt(0).height
             val scrollViewHeight = v.height
@@ -80,6 +81,7 @@ class PlanetFragment : Fragment() {
         }
     }
 
+    // Coroutine function to fetch planet list
     private suspend fun getPlanetList(page: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
             lifecycleScope.launch {
@@ -96,6 +98,7 @@ class PlanetFragment : Fragment() {
                                 if (it.data?.next != null) {
                                     planetAdapter?.submitData(it.data?.results!!)
 
+                                    // Save planets to the local database
                                     GlobalScope.launch {
                                         it.data?.results?.let { planetList ->
                                             val planets = planetList.map { planetResult ->
@@ -131,7 +134,8 @@ class PlanetFragment : Fragment() {
                     }
                 }
             }
-        } else{
+        } else {
+            // Fetch planets from the local database if there is no internet connection
             binding.pBarLoading.isVisible(false, binding.rvPlanet)
             val planets = starWarDatabase.starWarDao().getPlanets()
             val resultsList = planets.map { planet ->
@@ -152,13 +156,19 @@ class PlanetFragment : Fragment() {
                     url = planet.url
                 )
             }
-            val planetList = PlanetList(1,"", "", resultsList)
+            val planetList = PlanetList(1, "", "", resultsList)
             planetAdapter?.submitData(planetList.results)
         }
-
     }
 
+    // Set up RecyclerView with the planet adapter
     private fun setUpRecyclerView() {
         binding.rvPlanet.initRecycler(LinearLayoutManager(requireContext()), planetAdapter!!)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Clean up the binding variable to avoid memory leaks
+        _binding = null
     }
 }

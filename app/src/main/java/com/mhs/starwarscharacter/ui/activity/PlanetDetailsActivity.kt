@@ -25,21 +25,25 @@ class PlanetDetailsActivity : AppCompatActivity() {
     private lateinit var starWarDatabase: StarWarDatabase
     private var connectivityStatus: String? = null
     private var itemURL: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize view binding
         binding = ActivityPlanetDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /** Network checking **/
+        // Check network connectivity
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(this)
 
-        //initialize database
+        // Initialize the Room database
         starWarDatabase = StarWarDatabase.getDatabase(this)
 
-        // Retrieve the string value from the Intent
+        // Retrieve the planet's URL from the Intent
         itemURL = intent.getStringExtra("itemURL")
-        if (itemURL!!.isNotEmpty()){
+        if (!itemURL.isNullOrEmpty()) {
+            // Extract planet ID from the URL and fetch details
             val planetID = extractCharacterIDFromUrl(itemURL!!)
             if (planetID != null) {
                 getPlanetDetails(planetID)
@@ -49,6 +53,7 @@ class PlanetDetailsActivity : AppCompatActivity() {
 
     private fun getPlanetDetails(id: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
+            // Fetch planet details from the network if there is an internet connection
             lifecycleScope.launch {
                 binding.apply {
                     viewModel.getPlanetDetails(id)
@@ -62,8 +67,9 @@ class PlanetDetailsActivity : AppCompatActivity() {
                                 pBarLoading.isVisible(false, mainLayout)
                                 it.data?.let { value -> setValue(value) }
 
+                                // Save planet details to the local database
                                 GlobalScope.launch {
-                                    it.data.let { planetDetails ->
+                                    it.data?.let { planetDetails ->
                                         val planetDetail = PlanetDetailsDB().apply {
                                             name = planetDetails?.name.toString()
                                             rotation_period = planetDetails?.rotationPeriod.toString()
@@ -94,7 +100,8 @@ class PlanetDetailsActivity : AppCompatActivity() {
                     }
                 }
             }
-        } else{
+        } else {
+            // Fetch planet details from the local database if there is no internet connection
             binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
                 val planetDetails = starWarDatabase.starWarDao().getPlanetDetails(itemURL!!)
@@ -115,6 +122,7 @@ class PlanetDetailsActivity : AppCompatActivity() {
     }
 
     private fun setValue(data: PlanetDetails) {
+        // Set values to the views
         binding.apply {
             txtName.text = data.name
             txtRPeriod.text = data.rotationPeriod

@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CharacterFragment : Fragment() {
 
-    private var _binding : FragmentCharacterBinding?=null
+    private var _binding: FragmentCharacterBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels()
@@ -38,8 +38,9 @@ class CharacterFragment : Fragment() {
     private var connectivityStatus: String? = null
     private lateinit var starWarDatabase: StarWarDatabase
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCharacterBinding.inflate(layoutInflater)
         return binding.root
@@ -49,11 +50,11 @@ class CharacterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /** Network checking */
+        // Network checking
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(requireContext())
 
-        //initialize database
+        // Initialize the Room database
         starWarDatabase = StarWarDatabase.getDatabase(requireContext())
 
         characterAdapter = CharacterAdapter(requireContext())
@@ -62,6 +63,7 @@ class CharacterFragment : Fragment() {
             getCharacterList(page)
         }
 
+        // Set up scroll listener for infinite scrolling
         binding.nsScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             val totalHeight = binding.nsScrollView.getChildAt(0).height
             val scrollViewHeight = v.height
@@ -97,6 +99,7 @@ class CharacterFragment : Fragment() {
                                 if (it.data?.next != null) {
                                     characterAdapter?.submitData(it.data?.results!!)
 
+                                    // Save characters to the local database
                                     GlobalScope.launch {
                                         it.data?.results?.let { characterList ->
                                             val characters = characterList.map { characterResult ->
@@ -132,7 +135,8 @@ class CharacterFragment : Fragment() {
                     }
                 }
             }
-        } else{
+        } else {
+            // Fetch characters from the local database if there is no internet connection
             binding.pBarLoading.isVisible(false, binding.rvCharacter)
             val characters = starWarDatabase.starWarDao().getCharacterList()
             val resultsList = characters.map { character ->
@@ -155,12 +159,19 @@ class CharacterFragment : Fragment() {
                     vehicles = emptyList()
                 )
             }
-            val characterList = CharacterList(1,"", "", resultsList)
+            val characterList = CharacterList(1, "", "", resultsList)
             characterAdapter?.submitData(characterList.results)
         }
     }
 
     private fun setUpRecyclerView() {
+        // Set up the RecyclerView with the character adapter
         binding.rvCharacter.initRecycler(LinearLayoutManager(requireContext()), characterAdapter!!)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Clean up the binding variable to avoid memory leaks
+        _binding = null
     }
 }

@@ -29,19 +29,21 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize view binding
         binding = ActivityCharacterDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /** Network checking **/
+        // Check network connectivity
         val networkChecking = NetworkChecking
         connectivityStatus = networkChecking.getConnectivityStatusString(this)
 
-        //initialize database
+        // Initialize the Room database
         starWarDatabase = StarWarDatabase.getDatabase(this)
 
-        // Retrieve the string value from the Intent
+        // Retrieve the character's URL from the Intent
         itemURL = intent.getStringExtra("itemURL")
-        if (itemURL!!.isNotEmpty()){
+        if (!itemURL.isNullOrEmpty()) {
+            // Extract character ID from the URL and fetch details
             val characterID = extractCharacterIDFromUrl(itemURL!!)
             if (characterID != null) {
                 getCharacterDetails(characterID)
@@ -51,6 +53,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
     private fun getCharacterDetails(id: Int) {
         if (connectivityStatus == "Wifi enabled" || connectivityStatus == "Mobile data enabled") {
+            // Fetch character details from the network if there is an internet connection
             lifecycleScope.launch {
                 binding.apply {
                     viewModel.getCharacterDetails(id)
@@ -64,18 +67,19 @@ class CharacterDetailsActivity : AppCompatActivity() {
                                 pBarLoading.isVisible(false, mainLayout)
                                 it.data?.let { value -> setValue(value) }
 
+                                // Save character details to the local database
                                 GlobalScope.launch {
-                                    it.data.let { characterDetails ->
+                                    it.data?.let { characterDetails ->
                                         val characterDetail = CharacterDetailsDB().apply {
-                                            birthYear = characterDetails?.birthYear.toString()
-                                            eyeColor = characterDetails?.eyeColor.toString()
-                                            gender = characterDetails?.gender.toString()
-                                            hairColor = characterDetails?.hairColor.toString()
-                                            height = characterDetails?.height.toString()
-                                            mass = characterDetails?.mass.toString()
-                                            name = characterDetails?.name.toString()
-                                            skinColor = characterDetails?.skinColor.toString()
-                                            url = characterDetails?.url.toString()
+                                            birthYear = characterDetails.birthYear.toString()
+                                            eyeColor = characterDetails.eyeColor.toString()
+                                            gender = characterDetails.gender.toString()
+                                            hairColor = characterDetails.hairColor.toString()
+                                            height = characterDetails.height.toString()
+                                            mass = characterDetails.mass.toString()
+                                            name = characterDetails.name.toString()
+                                            skinColor = characterDetails.skinColor.toString()
+                                            url = characterDetails.url.toString()
                                         }
                                         starWarDatabase.starWarDao()
                                             .addCharacterDetails(characterDetail)
@@ -95,7 +99,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
                     }
                 }
             }
-        } else{
+        } else {
+            // Fetch character details from the local database if there is no internet connection
             binding.pBarLoading.isVisible(false, binding.mainLayout)
             GlobalScope.launch {
                 val characterDetails = starWarDatabase.starWarDao().getCharacterDetails(itemURL!!)
@@ -123,6 +128,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     }
 
     private fun setValue(data: CharacterDetails) {
+        // Set values to the views
         binding.apply {
             txtName.text = data.name
             txtHeight.text = data.height
