@@ -3,23 +3,17 @@ The Star Wars Character Explorer Android app enables users to delve into charact
 
 **Used stack of project**
 
-#MVVM
-The MVVM (Model-View-ViewModel) architecture is a design pattern widely used in Android app development for organizing code in a structured manner. This separation of concerns allows for better code organization, testability, and maintenance. 
+#MVVM: The MVVM (Model-View-ViewModel) architecture is a design pattern widely used in Android app development for organizing code in a structured manner. This separation of concerns allows for better code organization, testability, and maintenance. 
 
-#RETROFIT
-Retrofit is a crucial Android library simplifies network requests and API handling. It provides an intuitive interface to define endpoints and request/response types, integrates with serialization libraries for data conversion, and supports asynchronous calls, error handling, and customization. With its capabilities, Retrofit streamlines networking tasks, enabling developers to create efficient Android apps effortlessly.
+#RETROFIT: Retrofit is a crucial Android library simplifies network requests and API handling. It provides an intuitive interface to define endpoints and request/response types, integrates with serialization libraries for data conversion, and supports asynchronous calls, error handling, and customization. With its capabilities, Retrofit streamlines networking tasks, enabling developers to create efficient Android apps effortlessly.
 
-#ROOM DATABASE
-Room is an Android Jetpack library that simplifies working with SQLite databases. It offers an abstraction layer over SQLite, allowing developers to define database tables through annotated entities and access data using DAO (Data Access Object) interfaces or classes. Room streamlines database operations, eliminating the need for raw SQL queries and enhancing data persistence in Android applications.
+#ROOM DATABASE: Room is an Android Jetpack library that simplifies working with SQLite databases. It offers an abstraction layer over SQLite, allowing developers to define database tables through annotated entities and access data using DAO (Data Access Object) interfaces or classes. Room streamlines database operations, eliminating the need for raw SQL queries and enhancing data persistence in Android applications.
 
-#KOTLIN COROUTINES
-Streamline asynchronous operations in Kotlin with a sequential, readable approach, providing lightweight threads and simplified handling of concurrent tasks for improved code organization and execution. Overall, they streamline asynchronous programming in Kotlin by offering a more straightforward and organized approach to handling asynchronous tasks.
+#KOTLIN COROUTINES: Streamline asynchronous operations in Kotlin with a sequential, readable approach, providing lightweight threads and simplified handling of concurrent tasks for improved code organization and execution. Overall, they streamline asynchronous programming in Kotlin by offering a more straightforward and organized approach to handling asynchronous tasks.
 
-#LIVE DATA
-LiveData is an observable data holder class in Android's Jetpack library, designed to handle data changes in a lifecycle-aware manner. It's used to hold and observe data, ensuring that UI components only update when the data changes and only when the relevant lifecycle is active. 
+#LIVE DATA: LiveData is an observable data holder class in Android's Jetpack library, designed to handle data changes in a lifecycle-aware manner. It's used to hold and observe data, ensuring that UI components only update when the data changes and only when the relevant lifecycle is active. 
 
-#VIEW MODEL
-ViewModel is an Android architecture component that stores and manages UI-related data. It survives configuration changes like screen rotations and retains data during the lifecycle of the associated UI component (like an Activity or Fragment). ViewModel separates UI logic from the UI controllers and helps maintain a clean and lifecycle-aware design in Android apps.
+#VIEW MODEL: ViewModel is an Android architecture component that stores and manages UI-related data. It survives configuration changes like screen rotations and retains data during the lifecycle of the associated UI component (like an Activity or Fragment). ViewModel separates UI logic from the UI controllers and helps maintain a clean and lifecycle-aware design in Android apps.
 
 **Required Libary list for project**
 
